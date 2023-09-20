@@ -1,5 +1,6 @@
 const express= require('express');
 const http= require('http');
+const fs= require('fs');
 const app= express();
 const port= 8080;
 const morgan= require('morgan');
@@ -18,6 +19,9 @@ app.use((err, req, res, next)=> {
 });
 
 app.get('/', (req, res)=> {
+    const path = require('path');
+    const indexPath = path.join(__dirname, 'index.html');
+    res.sendFile(indexPath);
   console.log('Welcome to the home page');
 });
 
