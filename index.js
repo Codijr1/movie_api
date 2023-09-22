@@ -62,6 +62,10 @@ app.post('/update-username', (req, res) => {
 });
 
 app.put('/my-list-add', (req, res) => {
+  res.send('Allows user to add a movie to their list of favorites');
+});
+
+app.delete('/my-list-delete', (req, res) => {
   res.send('Allows user to remove a movie from their list of favorites');
 });
 
