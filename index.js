@@ -69,7 +69,7 @@ app.delete('/my-list-delete', (req, res) => {
   res.send('Allows user to remove a movie from their list of favorites');
 });
 
-app.delete('/user-controls', (req, res) => {
+app.delete('/user-deregister', (req, res) => {
   res.send('Allows user to deregister');
 });
 
