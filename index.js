@@ -1,6 +1,7 @@
 const express= require('express');
 const http= require('http');
 const fs= require('fs');
+const path= require('path');
 const app= express();
 const port= 8080;
 const morgan= require('morgan');
@@ -33,5 +34,9 @@ app.get('/movies', (req, res)=> {
   ];
   res.json(tenMovies);
 });
+
+//paths for endpoints
+
+
 
 app.use(express.static('public'));

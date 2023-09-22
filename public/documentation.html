@@ -7,29 +7,68 @@
 </head>
 <body>
     <h1>Documentation</h1>
-    <p>This is a description for the API</p>
-    <!--Return a list of ALL movies to the user;
-
-    Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user;
-
-    Return data about a genre (description) by name/title (e.g., “Thriller”);
-
-    Return data about a director (bio, birth year, death year) by name;
-
-    Allow new users to register;
-
-    Allow users to update their user info (username);
-
-    Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later);
-
-    Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later);
-
-    Allow existing users to deregister (showing only a text that a user email has been removed—more on this later).-->
+    <p>This is a description and outline for the API</p>
     <table>
         <tr>
-            <th>Request</th>
-            <th>URL</th>
-            <th>Response</th>
+            <th>GET</th>
+            <th>/all-movies</th>
+            <th>Returns a list of all movies</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>GET</th>
+            <th>/search-by-title</th>
+            <th>Returns data on a specific movie by title</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>GET</th>
+            <th>/genres</th>
+            <th>Returns data about a genre</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>GET</th>
+            <th>/directors</th>
+            <th>Returns data about a director by name</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>PUT</th>
+            <th>/register</th>
+            <th>Allows a user to register</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>POST</th>
+            <th>/update-username</th>
+            <th>Allows user to update their username</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>PUT</th>
+            <th>/my-list-add</th>
+            <th>Allows user to add a movie to their list of favorites</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>DELETE</th>
+            <th>/my-list-delete</th>
+            <th>Allows user to remove a movie from their list of favorites</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>DELETE</th>
+            <th>/user-controls</th>
+            <th>Allows user to deregister</th>
         </tr>
     </table>
 </body>
