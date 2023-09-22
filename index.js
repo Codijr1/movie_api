@@ -37,6 +37,36 @@ app.get('/movies', (req, res)=> {
 
 //paths for endpoints
 
+app.get('/all-movies', (req, res) => {
+  res.send('Returns a list of all movies');
+});
 
+app.get('/search-by-title', (req, res) => {
+  res.send('Returns data on a specific movie by title');
+});
+
+app.get('/genres', (req, res) => {
+  res.send('Returns data about a genre');
+});
+
+app.get('/directors', (req, res) => {
+  res.send('Returns data about a director by name');
+});
+
+app.get('/register', (req, res) => {
+  res.send('Allows a user to register');
+});
+
+app.get('/update-username', (req, res) => {
+  res.send('Allows user to update their username');
+});
+
+app.get('/my-list-add', (req, res) => {
+  res.send('Allows user to remove a movie from their list of favorites');
+});
+
+app.get('/user-controls', (req, res) => {
+  res.send('Allows user to deregister');
+});
 
 app.use(express.static('public'));
