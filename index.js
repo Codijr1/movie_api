@@ -6,7 +6,12 @@ const app= express();
 const port= 8080;
 const morgan= require('morgan');
 const server= http.createServer(app);
+const mongoose= require('mongoose');
+const Models= require('./models.js');
+const Movies= Models.Movie;
+const Users= Models.User;
 
+mongoose.connect('mongodb://localhost:27017/MongoDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 server.listen(port, () => {
   console.log(`Welcome to my server`);
@@ -74,3 +79,4 @@ app.delete('/user-deregister', (req, res) => {
 });
 
 app.use(express.static('public'));
+
