@@ -32,6 +32,8 @@ app.use((err, req, res, next) => {
   res.status(500).send('Unexpected Error');
 });
 
+//page endpoints start here
+
 app.get('/', (req, res) => {
   const path = require('path');
   const indexPath = path.join(__dirname, 'index.html');
@@ -39,7 +41,7 @@ app.get('/', (req, res) => {
   console.log('Welcome to the home page');
 });
 
-app.get('/all-movies', async (req, res) => {
+app.get('/movies', async (req, res) => {
   try {
     const movies = await Movies.find();
     res.json(movies);
