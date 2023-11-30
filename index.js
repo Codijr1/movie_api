@@ -1,82 +1,164 @@
-const express= require('express');
-const http= require('http');
-const fs= require('fs');
-const path= require('path');
-const app= express();
-const port= 8080;
-const morgan= require('morgan');
-const server= http.createServer(app);
-const mongoose= require('mongoose');
-const Models= require('./models.js');
-const Movies= Models.Movie;
-const Users= Models.User;
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
 
-mongoose.connect('mongodb://localhost:27017/MongoDB', { useNewUrlParser: true, useUnifiedTopology: true });
+const app = express();
+const server = http.createServer(app);
+const port = 8080;
 
-server.listen(port, () => {
-  console.log(`Welcome to my server`);
+const Movies = Models.Movie;
+const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Models.Director;
+
+mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+  server.listen(port, () => {
+    console.log(`Welcome to my server.`);
+  });
 });
 
 app.use(morgan('combined'));
 
-app.use((err, req, res, next)=> {
+app.use((err, req, res, next) => {
   console.error('Unexpected Error', err.stack);
   res.status(500).send('Unexpected Error');
 });
 
-app.get('/', (req, res)=> {
-    const path = require('path');
-    const indexPath = path.join(__dirname, 'index.html');
-    res.sendFile(indexPath);
+app.get('/', (req, res) => {
+  const path = require('path');
+  const indexPath = path.join(__dirname, 'index.html');
+  res.sendFile(indexPath);
   console.log('Welcome to the home page');
 });
 
-app.get('/movies', (req, res)=> {
-  const tenMovies= [
-    { name: 'example', year: 2010 },
-    { name: 'example2', year: 2011 },
-    { name: 'example3', year: 2012 }
-  ];
-  res.json(tenMovies);
+app.get('/all-movies', async (req, res) => {
+  try {
+    const movies = await Movies.find();
+    res.json(movies);
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-//paths for endpoints
-
-app.get('/all-movies', (req, res) => {
-  res.send('Returns a list of all movies');
+app.get('/search-by-title', async (req, res) => {
+  const title = req.query.title;
+  try {
+    const movie = await Movies.findOne({ Title: title });
+    if (movie) {
+      res.json(movie);
+    } else {
+      res.status(404).json({ error: 'Error' });
+    }
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.get('/search-by-title', (req, res) => {
-  res.send('Returns data on a specific movie by title');
+app.get('/genres', async (req, res) => {
+  try {
+    const genres = await Genres.find();
+    res.json(genres);
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.get('/genres', (req, res) => {
-  res.send('Returns data about a genre');
+app.get('/directors', async (req, res) => {
+  const directorName = req.query.name;
+  try {
+    const director = await Directors.findOne({ 'Name': directorName });
+    if (director) {
+      res.json(director);
+    } else {
+      res.status(404).json({ error: 'Error' });
+    }
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.get('/directors', (req, res) => {
-  res.send('Returns data about a director by name');
+app.put('/register', async (req, res) => {
+  const { Username, Password, Email, Birthday } = req.body;
+  try {
+    const newUser = new Users({ Username, Password, Email, Birthday });
+    await newUser.save();
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.put('/register', (req, res) => {
-  res.send('Allows a user to register');
+app.post('/update-username', async (req, res) => {
+  const { oldUsername, newUsername } = req.body;
+  try {
+    const user = await Users.findOneAndUpdate({ Username: oldUsername }, { Username: newUsername }, { new: true });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Error' });
+    }
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.post('/update-username', (req, res) => {
-  res.send('Allows user to update their username');
+app.put('/my-list-add', async (req, res) => {
+  const { Username, MovieID } = req.body;
+  try {
+    const user = await Users.findOneAndUpdate({ Username }, { $push: { FavoriteMovies: MovieID } }, { new: true });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Error' });
+    }
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.put('/my-list-add', (req, res) => {
-  res.send('Allows user to add a movie to their list of favorites');
+app.delete('/my-list-delete', async (req, res) => {
+  const { Username, MovieID } = req.body;
+  try {
+    const user = await Users.findOneAndUpdate({ Username }, { $pull: { FavoriteMovies: MovieID } }, { new: true });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Error' });
+    }
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
-app.delete('/my-list-delete', (req, res) => {
-  res.send('Allows user to remove a movie from their list of favorites');
-});
-
-app.delete('/user-deregister', (req, res) => {
-  res.send('Allows user to deregister');
+app.delete('/user-deregister', async (req, res) => {
+  const { Username } = req.body;
+  try {
+    const user = await Users.findOneAndDelete({ Username });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Error' });
+    }
+  } catch (error) {
+    console.error('Error', error);
+    res.status(500).json({ error: 'Error' });
+  }
 });
 
 app.use(express.static('public'));
-
