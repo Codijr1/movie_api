@@ -4,15 +4,15 @@ const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
-
+const Movies = Models.Movie;
+const Users = Models.User;
 const app = express();
 const server = http.createServer(app);
 const port = 8080;
 
-const Movies = Models.Movie;
-const Users = Models.User;
-const Genres = Models.Genre;
-const Directors = Models.Director;
+
+// const Genres = Models.Genre;
+// const Directors = Models.Director;
 
 mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 
