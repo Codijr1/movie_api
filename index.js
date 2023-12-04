@@ -6,13 +6,12 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Models.Director;
 const app = express();
 const server = http.createServer(app);
 const port = 8080;
 
-
-// const Genres = Models.Genre;
-// const Directors = Models.Director;
 
 mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 
@@ -33,7 +32,6 @@ app.use((err, req, res, next) => {
 });
 
 //page endpoints start here
-
 app.get('/', (req, res) => {
   const path = require('path');
   const indexPath = path.join(__dirname, 'index.html');
@@ -41,41 +39,62 @@ app.get('/', (req, res) => {
   console.log('Welcome to the home page');
 });
 
+//movies
 app.get('/movies', async (req, res) => {
   try {
     const movies = await Movies.find();
     res.json(movies);
-  } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
+  } catch (error){
+    console.error('Error',error);
+    res.status(500).json({error:'Error'});
   }
 });
-
-app.get('/search-by-title', async (req, res) => {
-  const title = req.query.title;
-  try {
-    const movie = await Movies.findOne({ Title: title });
-    if (movie) {
+app.get('/movies/:Title', (req, res)=>{
+  Movies.findOne({title: req.params.Title})
+    .then((movie) =>{
       res.json(movie);
-    } else {
-      res.status(404).json({ error: 'Error' });
-    }
-  } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
-  }
+    })
+    .catch((err) =>{
+      console.error(err);
+      res.status(500).send('Error: '+ err);
+    });
 });
 
+//users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await Users.find();
+    res.json(users);
+  } catch (error){
+    console.error('Error',error);
+    res.status(500).json({error:'Error'});
+  }
+});
+app.get('/users/:Username', (req, res)=>{
+  Users.findOne({username: req.params.Username})
+    .then((user) =>{
+      res.json(user);
+    })
+    .catch((err) =>{
+      console.error(err);
+      res.status(500).send('Error: '+ err);
+    });
+});
+
+//genres
 app.get('/genres', async (req, res) => {
   try {
     const genres = await Genres.find();
     res.json(genres);
-  } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
+  } catch (error){
+    console.error('Error',error);
+    res.status(500).json({error: 'Error'});
   }
 });
 
+
+
+//directors
 app.get('/directors', async (req, res) => {
   const directorName = req.query.name;
   try {
@@ -86,10 +105,14 @@ app.get('/directors', async (req, res) => {
       res.status(404).json({ error: 'Error' });
     }
   } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
+    console.error('Error',error);
+    res.status(500).json({error:'Error'});
   }
 });
+
+
+
+
 
 app.put('/register', async (req, res) => {
   const { Username, Password, Email, Birthday } = req.body;
@@ -110,11 +133,11 @@ app.post('/update-username', async (req, res) => {
     if (user) {
       res.json(user);
     } else {
-      res.status(404).json({ error: 'Error' });
+      res.status(404).json({error:'Error' });
     }
   } catch (error) {
     console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
+    res.status(500).json({ error:'Error'});
   }
 });
 
@@ -125,11 +148,11 @@ app.put('/my-list-add', async (req, res) => {
     if (user) {
       res.json(user);
     } else {
-      res.status(404).json({ error: 'Error' });
+      res.status(404).json({error:'Error'});
     }
   } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
+    console.error('Error',error);
+    res.status(500).json({error:'Error'});
   }
 });
 
@@ -140,11 +163,11 @@ app.delete('/my-list-delete', async (req, res) => {
     if (user) {
       res.json(user);
     } else {
-      res.status(404).json({ error: 'Error' });
+      res.status(404).json({ error:'Error'});
     }
   } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
+    console.error('Error',error);
+    res.status(500).json({error:'Error'});
   }
 });
 
