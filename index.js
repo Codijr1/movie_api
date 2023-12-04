@@ -1,4 +1,6 @@
 const express = require('express');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const http = require('http');
 const path = require('path');
 const morgan = require('morgan');
@@ -123,14 +125,18 @@ app.get('/directors/:Name', (req, res)=>{
     });
 });
 
-
-
-
 //commands to manipulate data
+
+//allows a user to register
 app.put('/register', async (req, res) => {
   const { Username, Password, Email, Birthday } = req.body;
   try {
-    const newUser = new Users({ Username, Password, Email, Birthday });
+    const newUser = new Users({ 
+      Username, 
+      Password, 
+      Email, 
+      Birthday
+    });
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
@@ -139,6 +145,7 @@ app.put('/register', async (req, res) => {
   }
 });
 
+//updates a username
 app.post('/update-username', async (req, res) => {
   const { oldUsername, newUsername } = req.body;
   try {
@@ -154,6 +161,7 @@ app.post('/update-username', async (req, res) => {
   }
 });
 
+//adds a movie to a user's favorites list
 app.put('/my-list-add', async (req, res) => {
   const { Username, MovieID } = req.body;
   try {
@@ -169,6 +177,7 @@ app.put('/my-list-add', async (req, res) => {
   }
 });
 
+//deletes a movie from a user's favorites list
 app.delete('/my-list-delete', async (req, res) => {
   const { Username, MovieID } = req.body;
   try {
@@ -184,6 +193,7 @@ app.delete('/my-list-delete', async (req, res) => {
   }
 });
 
+//deregisters a user 
 app.delete('/user-deregister', async (req, res) => {
   const { Username } = req.body;
   try {
