@@ -91,29 +91,42 @@ app.get('/genres', async (req, res) => {
     res.status(500).json({error: 'Error'});
   }
 });
-
-
+app.get('/genres/:Name', (req, res)=>{
+  Genres.findOne({Name: req.params.Name})
+    .then((genres) =>{
+      res.json(genres);
+    })
+    .catch((err) =>{
+      console.error(err);
+      res.status(500).send('Error: '+ err);
+    });
+});
 
 //directors
 app.get('/directors', async (req, res) => {
-  const directorName = req.query.name;
   try {
-    const director = await Directors.findOne({ 'Name': directorName });
-    if (director) {
-      res.json(director);
-    } else {
-      res.status(404).json({ error: 'Error' });
-    }
-  } catch (error) {
+    const directors = await Directors.find();
+    res.json(directors);
+  } catch (error){
     console.error('Error',error);
-    res.status(500).json({error:'Error'});
+    res.status(500).json({error: 'Error'});
   }
+});
+app.get('/directors/:Name', (req, res)=>{
+  Directors.findOne({Name: req.params.Name})
+    .then((directors) =>{
+      res.json(directors);
+    })
+    .catch((err) =>{
+      console.error(err);
+      res.status(500).send('Error: '+ err);
+    });
 });
 
 
 
 
-
+//commands to manipulate data
 app.put('/register', async (req, res) => {
   const { Username, Password, Email, Birthday } = req.body;
   try {
