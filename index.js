@@ -164,7 +164,7 @@ app.put('/users/:Username', async (req, res) => {
       Email: req.body.Email
     }
   },
-  { new: true }) // This line makes sure that the updated document is returned
+  { new: true })
   .then((updatedUser) => {
     res.json(updatedUser);
   })
@@ -190,33 +190,36 @@ app.delete('/users/:Username', async (req, res) => {
     });
 });
 
-//adds a movie to a user's favorites list
-app.post('/users/:Username/movies/:MovieID', async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $push: { FavoriteMovies: req.params.MovieID }
-   },
-   { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
+// adds a movie to a users favorites list
+app.post('/users/:username/movies/:_id', async (req, res) => {
+  try {
+    const updatedUser = await Users.findOneAndUpdate(
+      { username: req.params.username }, 
+      { $push: { favoriteMovies: req.params._id } },
+      { new: true }
+    );
     res.json(updatedUser);
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error(err);
     res.status(500).send('Error:' + err);
-  });
+  }
 });
 
-//deletes a movie from a user's favorites list
-app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $pull: { FavoriteMovies: req.params.MovieID }
-   },
-   { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
+// deletes a movie from a users favorites list
+app.delete('/users/:username/movies/:_id', async (req, res) => {
+  try {
+    const updatedUser = await Users.findOneAndUpdate(
+      { username: req.params.username }, 
+      { $pull: { favoriteMovies: req.params._id } },
+      { new: true }
+    );
     res.json(updatedUser);
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error(err);
     res.status(500).send('Error:' + err);
-  });
+  }
 });
+
+
+
 app.use(express.static('public'));
