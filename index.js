@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const http = require('http');
@@ -10,7 +11,6 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
-const app = express();
 const server = http.createServer(app);
 const port = 8080;
 
@@ -136,10 +136,10 @@ app.post('/users', async (req, res) => {
       } else {
         Users
           .create({
+            FirstName: req.body.FirstName,
+            LastName: req.body.LastName,
             Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
+            Email: req.body.Email
           })
           .then((user) =>{res.status(201).json(user) })
         .catch((error) => {
