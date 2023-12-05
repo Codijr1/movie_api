@@ -170,7 +170,7 @@ app.put('/users/:Username', async (req, res) => {
   })
   .catch((err) => {
     console.error(err);
-    res.status(500).send(‘Error: ’ + err);
+    res.status(500).send('Error:' + err);
   })
 
 });
@@ -200,7 +200,7 @@ app.post('/users/:Username/movies/:MovieID', async (req, res) => {
   })
   .catch((err) => {
     console.error(err);
-    res.status(500).send(‘Error: ’ + err);
+    res.status(500).send('Error:' + err);
   });
 });
 
