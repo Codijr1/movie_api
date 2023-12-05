@@ -8,13 +8,15 @@ let movieSchema= mongoose.Schema({
     Director:{Name: String},
 });
 
-let userSchema=mongoose.Schema({
-    FirstName:{type:String, required:true},
-    LastName:{type:String, required:true},
-    Email:{type:String, required:true},
-    Birthday:Date,
-    Username:{type:String, required:true}
+let userSchema = mongoose.Schema({
+    FirstName: { type: String, required: true },
+    LastName: { type: String, required: true },
+    Email: { type: String, required: true },
+    Birthday: Date,
+    Username: { type: String, required: true },
+    favoriteMovies: [{ type: String }]
 });
+
 
 let Movie=mongoose.model('Movie', movieSchema);
 let User=mongoose.model('User', userSchema);
@@ -32,9 +34,9 @@ let directorSchema = mongoose.Schema({
 let Genre = mongoose.model('Genre', genreSchema);
 let Director = mongoose.model('Director', directorSchema);
 
-module.exports.Genre = Genre;
-module.exports.Director = Director;
-module.exports.Movie=Movie;
-module.exports.User=User;
-
-
+module.exports = {
+    Genre,
+    Director,
+    Movie,
+    User,
+};

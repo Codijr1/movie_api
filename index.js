@@ -191,35 +191,37 @@ app.delete('/users/:Username', async (req, res) => {
 });
 
 // adds a movie to a users favorites list
-app.post('/users/:username/movies/:_id', async (req, res) => {
+app.post('/users/:username/movies/:movieId', async (req, res) => {
   try {
+    console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
-      { username: req.params.username }, 
-      { $push: { favoriteMovies: req.params._id } },
+      { username: req.params.username },
+      { $push: { favoriteMovies: req.params.movieId } },
       { new: true }
     );
+    console.log('Updated User:', updatedUser);
     res.json(updatedUser);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error:' + err);
   }
 });
-
 // deletes a movie from a users favorites list
-app.delete('/users/:username/movies/:_id', async (req, res) => {
+app.delete('/users/:username/movies/:movieId', async (req, res) => {
   try {
+    console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
-      { username: req.params.username }, 
-      { $pull: { favoriteMovies: req.params._id } },
+      { username: req.params.username },
+      { $pull: { favoriteMovies: req.params.movieId } },
       { new: true }
     );
+    console.log('Updated User:', updatedUser);
     res.json(updatedUser);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error:' + err);
   }
 });
-
 
 
 app.use(express.static('public'));
