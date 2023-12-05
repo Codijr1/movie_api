@@ -8,6 +8,7 @@
 <body>
     <h1>Documentation</h1>
     <p>This is a description and outline for the API</p>
+    <!-- Movies -->
     <table>
         <tr>
             <th>Method Type: GET</th>
@@ -28,11 +29,12 @@
             <th>Response Format: JSON</th>
         </tr>
     </table>
+    <!-- Users -->
     <table>
         <tr>
             <th>Method Type: GET</th>
-            <th>URL: /genres</th>
-            <th>Description: Returns data about all genres from the database</th>
+            <th>URL: /users</th>
+            <th>Description: Returns a list of all users from within the database</th>
             <th>Query Parameters: Example Placeholder</th>
             <th>Request Format: Example Placeholder</th>
             <th>Response Format: JSON</th>
@@ -41,13 +43,35 @@
     <table>
         <tr>
             <th>Method Type: GET</th>
-            <th>URL: /genres/genrename</th>
+            <th>URL: /users/:Username</th>
+            <th>Description: Returns a specific user from within the database by username</th>
+            <th>Query Parameters: Example Placeholder</th>
+            <th>Request Format: Example Placeholder</th>
+            <th>Response Format: JSON</th>
+        </tr>
+    </table> 
+    <!-- Genres -->
+    <table>
+        <tr>
+            <th>Method Type: GET</th>
+            <th>URL: /genres</th>
+            <th>Description: Returns data about all genres found in the database</th>
+            <th>Query Parameters: Example Placeholder</th>
+            <th>Request Format: Example Placeholder</th>
+            <th>Response Format: JSON</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Method Type: GET</th>
+            <th>URL: /genres/nameofgenre</th>
             <th>Description: Returns data about a specific genre from the database by name</th>
             <th>Query Parameters: Example Placeholder</th>
             <th>Request Format: Example Placeholder</th>
             <th>Response Format: JSON</th>
         </tr>
     </table>
+    <!-- Directors -->
     <table>
         <tr>
             <th>Method Type: GET</th>
@@ -68,51 +92,53 @@
             <th>Response Format: JSON</th>
         </tr>
     </table>
+
+    <!-- Commands -->
+    <table>
+        <tr>
+            <th>Method Type: POST</th>
+            <th>URL: /users</th>
+            <th>Description: Adds a new user</th>
+            <th>Query Parameters: Example Placeholder</th>
+            <th>Request Format: Example Placeholder</th>
+            <th>Response Format: JSON</th>
+        </tr>
+    </table>
     <table>
         <tr>
             <th>Method Type: PUT</th>
-            <th>URL: /register</th>
-            <th>Description: Allows a user to register</th>
+            <th>URL: /users/:Username</th>
+            <th>Description: Allows user to update their information</th>
             <th>Query Parameters: Example Placeholder</th>
             <th>Request Format: Example Placeholder</th>
-            <th>Response Format: Example Placeholder</th>
+            <th>Response Format: JSON</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Method Type: DELETE</th>
+            <th>URL: /user/:Username</th>
+            <th>Description: Allows user to deregister by username</th>
+            <th>Query Parameters: Example Placeholder</th>
+            <th>Request Format: Example Placeholder</th>
+            <th>Response Format: JSON</th>
         </tr>
     </table>
     <table>
         <tr>
             <th>Method Type: POST</th>
-            <th>URL: /update-username</th>
-            <th>Description: Allows user to update their username</th>
+            <th>URL: /users/:username/movies/:movieId</th>
+            <th>Description: Allows user to add a movie from the database to their list of favorites by movieID</th>
             <th>Query Parameters: Example Placeholder</th>
             <th>Request Format: Example Placeholder</th>
-            <th>Response Format: Example Placeholder</th>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>Method Type: PUT</th>
-            <th>URL: /my-list-add</th>
-            <th>Description: Allows user to add a movie from the database to their list of favorites</th>
-            <th>Query Parameters: Example Placeholder</th>
-            <th>Request Format: Example Placeholder</th>
-            <th>Response Format: Example Placeholder</th>
+            <th>Response Format: JSON</th>
         </tr>
     </table>
     <table>
         <tr>
             <th>Method Type: DELETE</th>
-            <th>URL: /my-list-delete</th>
-            <th>Description: Allows user to remove a movie from their list of favorites</th>
-            <th>Query Parameters: Example Placeholder</th>
-            <th>Request Format: Example Placeholder</th>
-            <th>Response Format: Example Placeholder</th>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>Method Type: DELETE</th>
-            <th>URL: /user-controls</th>
-            <th>Description: Allows user to deregister</th>
+            <th>URL: /users/:username/movies/:movieId</th>
+            <th>Description: Allows user to remove a movie from their list of favorites by movieID</th>
             <th>Query Parameters: Example Placeholder</th>
             <th>Request Format: Example Placeholder</th>
             <th>Response Format: Example Placeholder</th>
