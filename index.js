@@ -158,10 +158,10 @@ app.post('/users', async (req, res) => {
 app.put('/users/:Username', async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
       Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
+      Email: req.body.Email
     }
   },
   { new: true }) // This line makes sure that the updated document is returned
