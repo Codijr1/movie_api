@@ -165,6 +165,7 @@ app.put('/users/:Username', async (req, res) => {
       FirstName: req.body.FirstName,
       LastName: req.body.LastName,
       Username: req.body.Username,
+      Password: req.body.Password,
       Email: req.body.Email
     }
   },
