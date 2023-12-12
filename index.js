@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 });
 
 //movies
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const movies = await Movies.find();
     res.json(movies);
@@ -142,6 +142,7 @@ app.post('/users', async (req, res) => {
             FirstName: req.body.FirstName,
             LastName: req.body.LastName,
             Username: req.body.Username,
+            Password: req.body.Password,
             Email: req.body.Email
           })
           .then((user) =>{res.status(201).json(user) })
