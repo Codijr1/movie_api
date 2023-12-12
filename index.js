@@ -152,7 +152,7 @@ app.post('/users', async (req, res) => {
       console.error(error);
       res.status(500).send('Error: ' + error);
     });
-});
+}); 
 
 //updates a user's info
 app.put('/users/:Username', async (req, res) => {
@@ -206,6 +206,7 @@ app.post('/users/:username/movies/:movieId', async (req, res) => {
     res.status(500).send('Error:' + err);
   }
 });
+
 // deletes a movie from a users favorites list
 app.delete('/users/:username/movies/:movieId', async (req, res) => {
   try {
@@ -222,6 +223,5 @@ app.delete('/users/:username/movies/:movieId', async (req, res) => {
     res.status(500).send('Error:' + err);
   }
 });
-
 
 app.use(express.static('public'));

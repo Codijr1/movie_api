@@ -18,7 +18,7 @@ passport.use(
             await Users.findOne({Username: username})
             .then((user) =>{
                 if (!user){
-                    console.log('Incorrect Username');
+                    console.log('Username not found');
                     return callback(null,false,{
                         message:'Incorrect username or password',
                     });
