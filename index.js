@@ -183,7 +183,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 //deletes a user by username
-app.delete('/users/:Username',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
