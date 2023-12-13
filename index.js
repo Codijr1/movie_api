@@ -216,7 +216,7 @@ app.post('/users/:username/movies/:movieId',passport.authenticate('jwt', { sessi
 });
 
 // deletes a movie from a users favorites list
-app.delete('/users/:username/movies/:movieId',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
