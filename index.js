@@ -27,7 +27,10 @@ const Users= Models.User;
 const Genres= Models.Genre;
 const Directors= Models.Director;
 const server= http.createServer(app);
-const port= 8080;
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
+});
 const {check,validationResult}=require('express-validator');
 
 mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
