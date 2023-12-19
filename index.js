@@ -2,6 +2,19 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 let auth=require('./auth')(app);
 const passport=require('passport');
 require('./passport');
@@ -132,6 +145,7 @@ app.get('/directors/:Name',passport.authenticate('jwt', { session: false }), (re
 
 //Add a user
 app.post('/users', async (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -142,7 +156,7 @@ app.post('/users', async (req, res) => {
             FirstName: req.body.FirstName,
             LastName: req.body.LastName,
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email
           })
           .then((user) =>{res.status(201).json(user) })
