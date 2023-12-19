@@ -1,10 +1,9 @@
-const express = require('express');
-const app = express();
+const express= require('express');
+const app= express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const cors = require('cors');
+const cors= require('cors');
 let allowedOrigins = ['http://localhost:8080'];
-
 app.use(cors({
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
@@ -18,18 +17,18 @@ app.use(cors({
 let auth=require('./auth')(app);
 const passport=require('passport');
 require('./passport');
-const http = require('http');
-const path = require('path');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const Models = require('./models.js');
-const Movies = Models.Movie;
-const Users = Models.User;
-const Genres = Models.Genre;
-const Directors = Models.Director;
-const server = http.createServer(app);
-const port = 8080;
-
+const http= require('http');
+const path= require('path');
+const morgan= require('morgan');
+const mongoose= require('mongoose');
+const Models= require('./models.js');
+const Movies= Models.Movie;
+const Users= Models.User;
+const Genres= Models.Genre;
+const Directors= Models.Director;
+const server= http.createServer(app);
+const port= 8080;
+const {check,validationResult}=require('express-validator');
 
 mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 
@@ -144,7 +143,16 @@ app.get('/directors/:Name',passport.authenticate('jwt', { session: false }), (re
 //commands to manipulate data
 
 //Add a user
-app.post('/users', async (req, res) => {
+app.post('/users',[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email is not valid').isEmail()
+], async (req, res) => {
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+}
   let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -173,7 +181,18 @@ app.post('/users', async (req, res) => {
 }); 
 
 //updates a user's info
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username',
+[
+check('Username', 'Username is required').isLength({min: 5}),
+check('Username', 'Username contains non alphanumeric characters').isAlphanumeric(),
+check('Password', 'Password is required').not().isEmpty(),
+check('Email', 'Email is not valid').isEmail()
+],
+ passport.authenticate('jwt', { session: false }), async (req, res) => {
+      let errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
   if(req.user.Username !== req.params.Username){
     return res.status(400).send('Permission denied');
   }
