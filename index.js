@@ -33,7 +33,9 @@ app.listen(port, '0.0.0.0',() => {
 });
 const {check,validationResult}=require('express-validator');
 
-mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+// mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+mongoose.connect('process.env.CONNECTION_URI', {});
+
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
