@@ -26,25 +26,21 @@ const Movies= Models.Movie;
 const Users= Models.User;
 const Genres= Models.Genre;
 const Directors= Models.Director;
+
 const server= http.createServer(app);
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
 });
+
 const {check,validationResult}=require('express-validator');
 
-// mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
-  server.listen(port, () => {
-    console.log(`Welcome to my server.`);
-  });
 });
 
 app.use(morgan('combined'));
