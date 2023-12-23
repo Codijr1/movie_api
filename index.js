@@ -34,7 +34,8 @@ app.listen(port, '0.0.0.0',() => {
 const {check,validationResult}=require('express-validator');
 
 // mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
-mongoose.connect('process.env.CONNECTION_URI', {});
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 
 const db = mongoose.connection;
