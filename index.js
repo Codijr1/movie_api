@@ -35,7 +35,14 @@ app.listen(port, '0.0.0.0',() => {
 
 const {check,validationResult}=require('express-validator');
 
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//https://myflixproject-9c1001b14e61.herokuapp.com/
+
+//for online api
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//for local host
+mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -90,7 +97,7 @@ app.get('/users',passport.authenticate('jwt', { session: false }), async (req, r
   }
 });
 app.get('/users/:Username',passport.authenticate('jwt', { session: false }), (req, res)=>{
-  Users.findOne({username: req.params.Username})
+  Users.findOne({Username: req.params.Username})
     .then((user) =>{
       res.json(user);
     })
@@ -234,7 +241,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 // adds a movie to a users favorites list
-app.post('/users/:username/movies/:movieId',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.post('/users/:Username/movies/:movieId',passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
@@ -251,7 +258,7 @@ app.post('/users/:username/movies/:movieId',passport.authenticate('jwt', { sessi
 });
 
 // deletes a movie from a users favorites list
-app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
