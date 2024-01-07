@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
 });
 
 //movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   try {
     const movies = await Movies.find();
     res.json(movies);
@@ -75,7 +75,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
     res.status(500).json({error:'Error'});
   }
 });
-app.get('/movies/:Title',passport.authenticate('jwt', { session: false }), (req, res)=>{
+app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ (req, res)=>{
   Movies.findOne({title: req.params.Title})
     .then((movie) =>{
       res.json(movie);
@@ -87,7 +87,7 @@ app.get('/movies/:Title',passport.authenticate('jwt', { session: false }), (req,
 });
 
 //users
-app.get('/users',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/users', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   try {
     const users = await Users.find();
     res.json(users);
@@ -96,7 +96,7 @@ app.get('/users',passport.authenticate('jwt', { session: false }), async (req, r
     res.status(500).json({error:'Error'});
   }
 });
-app.get('/users/:Username',passport.authenticate('jwt', { session: false }), (req, res)=>{
+app.get('/users/:Username', /*passport.authenticate('jwt', { session: false }),*/ (req, res)=>{
   Users.findOne({Username: req.params.Username})
     .then((user) =>{
       res.json(user);
@@ -108,7 +108,7 @@ app.get('/users/:Username',passport.authenticate('jwt', { session: false }), (re
 });
 
 //genres
-app.get('/genres',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/genres', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   try {
     const genres = await Genres.find();
     res.json(genres);
@@ -117,7 +117,7 @@ app.get('/genres',passport.authenticate('jwt', { session: false }), async (req, 
     res.status(500).json({error: 'Error'});
   }
 });
-app.get('/genres/:Name',passport.authenticate('jwt', { session: false }), (req, res)=>{
+app.get('/genres/:Name', /*passport.authenticate('jwt', { session: false }),*/ (req, res)=>{
   Genres.findOne({Name: req.params.Name})
     .then((genres) =>{
       res.json(genres);
@@ -129,7 +129,7 @@ app.get('/genres/:Name',passport.authenticate('jwt', { session: false }), (req, 
 });
 
 //directors
-app.get('/directors',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/directors', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   try {
     const directors = await Directors.find();
     res.json(directors);
@@ -138,7 +138,7 @@ app.get('/directors',passport.authenticate('jwt', { session: false }), async (re
     res.status(500).json({error: 'Error'});
   }
 });
-app.get('/directors/:Name',passport.authenticate('jwt', { session: false }), (req, res)=>{
+app.get('/directors/:Name', /*passport.authenticate('jwt', { session: false }),*/ (req, res)=>{
   Directors.findOne({Name: req.params.Name})
     .then((directors) =>{
       res.json(directors);
