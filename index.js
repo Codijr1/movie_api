@@ -274,4 +274,5 @@ app.delete('/users/:Username/movies/:movieId', passport.authenticate('jwt', { se
   }
 });
 
+
 app.use(express.static('public'));
