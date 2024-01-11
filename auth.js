@@ -35,7 +35,6 @@ module.exports = (router) => {
       }
 
       try {
-        // Compare the user's provided password with the hashed password in the database
         const passwordMatch = await bcrypt.compare(req.body.secret, user.Password);
 
         if (!passwordMatch) {
