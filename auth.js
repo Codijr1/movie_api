@@ -6,12 +6,23 @@ const bcrypt = require('bcrypt');
 require('./passport');
 
 let generateJWTToken = (user) => {
-  return jwt.sign(user, jwtSecret, {
-    subject: user.Username,
-    expiresIn: '30d',
-    algorithm: 'HS256',
-  });
-};
+    return jwt.sign(
+      {
+        _id: user._id,
+        Username: user.Username,
+        FirstName: user.FirstName,
+        LastName: user.LastName,
+        Email: user.Email,
+      },
+      jwtSecret,
+      {
+        subject: user.Username,
+        expiresIn: '30d',
+        algorithm: 'HS256',
+      }
+    );
+  };
+  
 
 module.exports = (router) => {
   router.post('/login', async (req, res) => {
