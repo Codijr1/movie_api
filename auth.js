@@ -1,14 +1,14 @@
 const jwtSecret = 'your_jwt_secret';
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const bcrypt = require('bcrypt'); // Import bcrypt
+const bcrypt = require('bcrypt'); 
 
-require('./passport'); // Local passport file
+require('./passport');
 
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     subject: user.Username,
-    expiresIn: '7d',
+    expiresIn: '30d',
     algorithm: 'HS256',
   });
 };
