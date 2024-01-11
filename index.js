@@ -152,7 +152,7 @@ app.get('/directors/:Name', /*passport.authenticate('jwt', { session: false }),*
 //commands to manipulate data
 
 //Add a user
-app.post('/users',[
+app.post('/signup',[
   check('Username', 'Username is required').isLength({min: 5}),
   check('Username', 'Username contains non alphanumeric characters').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
