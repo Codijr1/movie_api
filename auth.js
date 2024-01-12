@@ -24,37 +24,40 @@ let generateJWTToken = (user) => {
 };
 
 module.exports = (router) => {
-  router.post('/login', async (req, res) => {
-    passport.authenticate('local', { session: false }, async (error, user, info) => {
-      try {
-        if (error) {
-          throw error;
-        }
-
-        if (!user) {
-          return res.status(400).json({
-            message: 'Invalid credentials',
-          });
-        }
-
-        const passwordMatch = await bcrypt.compare(req.body.secret, user.Password);
-
-        if (!passwordMatch) {
-          return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        req.login(user, { session: false }, (error) => {
+    router.post('/login', async (req, res) => {
+      console.log('Received login request:', req.body); // Add this line for debugging
+  
+      passport.authenticate('local', { session: false }, async (error, user, info) => {
+        try {
           if (error) {
-            throw error;
+            console.error(error);
+            return res.status(500).json({ message: 'Internal server error' });
           }
-
-          let token = generateJWTToken(user.toJSON());
-          return res.json({ user, token });
-        });
-      } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Internal server error' });
-      }
-    })(req, res);
-  });
-};
+  
+          if (!user) {
+            return res.status(400).json({
+              message: 'Invalid credentials',
+            });
+          }
+  
+          const passwordMatch = await bcrypt.compare(req.body.secret, user.Password);
+  
+          if (!passwordMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+          }
+  
+          req.login(user, { session: false }, (error) => {
+            if (error) {
+              throw error;
+            }
+  
+            let token = generateJWTToken(user.toJSON());
+            return res.json({ user, token });
+          });
+        } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+      })(req, res);
+    });
+  };
