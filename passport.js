@@ -3,6 +3,8 @@ const passport = require('passport'),
     Models = require('./models.js'),
     passportJWT = require('passport-jwt');
 
+const jwtSecret = 'jwt_secret';
+
 let Users = Models.User,
     JWTStrategy = passportJWT.Strategy,
     ExtractJwt = passportJWT.ExtractJwt;
