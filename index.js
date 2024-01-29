@@ -75,20 +75,22 @@ app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/ async (
     res.status(500).json({ error: 'Error' });
   }
 });
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne({ title: req.params.Title })
-    .then((movie) => {
-      res.json(movie);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get('/movies/:Title',
+  // passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
+    Movies.findOne({ title: req.params.Title })
+      .then((movie) => {
+        res.json(movie);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  });
 
 //users
 app.get('/users',
-  // passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }), 
   async (req, res) => {
     try {
       const users = await Users.find();
@@ -98,40 +100,43 @@ app.get('/users',
       res.status(500).json({ error: 'Error' });
     }
   });
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send('User not found');
-      }
-      if (req.user._id.toString() !== user._id.toString()) {
-        return res.status(403).send('Unauthorized');
-      }
-      res.json(user);
-    })
-});
-
+app.get('/users/:Username',
+  // passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
+    Users.findOne({ Username: req.params.Username })
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  });
 
 //genres
-app.get('/genres', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    const genres = await Genres.find();
-    res.json(genres);
-  } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
-  }
-});
-app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Genres.findOne({ Name: req.params.Name })
-    .then((genres) => {
+app.get('/genres',
+  // passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    try {
+      const genres = await Genres.find();
       res.json(genres);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+    } catch (error) {
+      console.error('Error', error);
+      res.status(500).json({ error: 'Error' });
+    }
+  });
+app.get('/genres/:Name',
+  // passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
+    Genres.findOne({ Name: req.params.Name })
+      .then((genres) => {
+        res.json(genres);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  });
 
 //directors
 app.get('/directors', passport.authenticate('jwt', { session: false }), async (req, res) => {
