@@ -87,15 +87,17 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
 });
 
 //users
-app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    const users = await Users.find();
-    res.json(users);
-  } catch (error) {
-    console.error('Error', error);
-    res.status(500).json({ error: 'Error' });
-  }
-});
+app.get('/users',
+  // passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    try {
+      const users = await Users.find();
+      res.json(users);
+    } catch (error) {
+      console.error('Error', error);
+      res.status(500).json({ error: 'Error' });
+    }
+  });
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
