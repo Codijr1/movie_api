@@ -1,7 +1,8 @@
 const passport = require('passport'),
     LocalStrategy = require('passport-local'),
     Models = require('./models.js'),
-    passportJWT = require('passport-jwt');
+    passportJWT = require('passport-jwt'),
+    auth = require('./auth'); // Import your auth.js file
 
 let Users = Models.User,
     JWTStrategy = passportJWT.Strategy,
@@ -42,7 +43,8 @@ passport.use(
     new JWTStrategy(
         {
             jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-            key: 'key'
+            secretOrKey: auth.jwtSecret, // Use the jwtSecret from auth.js
+            algorithms: ['HS256'],
         },
         async (jwtPayload, callback) => {
             try {
