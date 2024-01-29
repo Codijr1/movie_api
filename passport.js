@@ -39,12 +39,11 @@ passport.use(
         }
     )
 );
-
 passport.use(
     new JWTStrategy(
         {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            jwtSecret: 'jwt_secret'
+            secretOrKey: jwtSecret
         },
         async (jwtPayload, callback) => {
             try {
