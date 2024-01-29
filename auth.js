@@ -25,6 +25,7 @@ let generateJWTToken = (user) => {
 
 module.exports = (router) => {
   router.post('/login', async (req, res) => {
+    //debug
     console.log('Received login request:', req.body);
 
     passport.authenticate('local', { session: false }, async (error, user, info) => {
@@ -41,7 +42,6 @@ module.exports = (router) => {
         }
 
         const passwordMatch = await bcrypt.compare(req.body.Password, user.Password);
-
 
         if (!passwordMatch) {
           return res.status(401).json({ message: 'Invalid credentials' });
