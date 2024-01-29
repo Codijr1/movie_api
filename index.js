@@ -98,18 +98,20 @@ app.get('/users',
       res.status(500).json({ error: 'Error' });
     }
   });
-app.get('/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send('User not found');
-      }
-      if (req.user._id.toString() !== user._id.toString()) {
-        return res.status(403).send('Unauthorized');
-      }
-      res.json(user);
-    })
-});
+app.get('/users/:username',
+  // passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
+    Users.findOne({ Username: req.params.Username })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send('User not found');
+        }
+        if (req.user._id.toString() !== user._id.toString()) {
+          return res.status(403).send('Unauthorized');
+        }
+        res.json(user);
+      })
+  });
 
 
 //genres
