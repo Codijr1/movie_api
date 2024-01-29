@@ -38,10 +38,10 @@ const { check, validationResult } = require('express-validator');
 //https://myflixproject-9c1001b14e61.herokuapp.com/
 
 //for online api
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //for local host
-// mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 
 
 const db = mongoose.connection;
