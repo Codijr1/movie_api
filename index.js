@@ -76,7 +76,7 @@ app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/ async (
   }
 });
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne({ title: req.params.Title })
+  Movies.findOne({ title: req.params.title })
     .then((movie) => {
       res.json(movie);
     })
@@ -125,7 +125,7 @@ app.get('/genres', passport.authenticate('jwt', { session: false }), async (req,
   }
 });
 app.get('/genres/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Genres.findOne({ Name: req.params.Name })
+  Genres.findOne({ Name: req.params.name })
     .then((genres) => {
       res.json(genres);
     })
@@ -146,7 +146,7 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), async (r
   }
 });
 app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Name: req.params.Name })
+  Directors.findOne({ Name: req.params.name })
     .then((directors) => {
       res.json(directors);
     })
@@ -234,7 +234,7 @@ app.put('/users/:username',
 
 //deletes a user by username
 app.delete('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Users.findOneAndDelete({ Username: req.params.Username })
+  await Users.findOneAndDelete({ Username: req.params.username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found');
