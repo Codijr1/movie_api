@@ -258,7 +258,7 @@ app.post('/users/:Username/movies/:movieId',
     try {
       console.log('Request Params:', req.params);
       const updatedUser = await Users.findOneAndUpdate(
-        { username: req.params.username },
+        { username: req.params.Username },
         { $push: { favoriteMovies: req.params.movieId } },
         { new: true }
       );
@@ -277,7 +277,7 @@ app.delete('/users/:Username/movies/:movieId',
     try {
       console.log('Request Params:', req.params);
       const updatedUser = await Users.findOneAndUpdate(
-        { username: req.params.username },
+        { username: req.params.Username },
         { $pull: { favoriteMovies: req.params.movieId } },
         { new: true }
       );
