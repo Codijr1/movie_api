@@ -38,10 +38,10 @@ const { check, validationResult } = require('express-validator');
 //https://myflixproject-9c1001b14e61.herokuapp.com/
 
 //for online api
-// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //for local host
-mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+// mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 
 
 const db = mongoose.connection;
@@ -252,38 +252,42 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 // adds a movie to a users favorites list
-app.post('/users/:Username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    console.log('Request Params:', req.params);
-    const updatedUser = await Users.findOneAndUpdate(
-      { username: req.params.username },
-      { $push: { favoriteMovies: req.params.movieId } },
-      { new: true }
-    );
-    console.log('Updated User:', updatedUser);
-    res.json(updatedUser);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error:' + err);
-  }
-});
+app.post('/users/:Username/movies/:movieId',
+  // passport.authenticate('jwt', { session: false }), 
+  async (req, res) => {
+    try {
+      console.log('Request Params:', req.params);
+      const updatedUser = await Users.findOneAndUpdate(
+        { username: req.params.username },
+        { $push: { favoriteMovies: req.params.movieId } },
+        { new: true }
+      );
+      console.log('Updated User:', updatedUser);
+      res.json(updatedUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    }
+  });
 
 // deletes a movie from a users favorites list
-app.delete('/users/:Username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    console.log('Request Params:', req.params);
-    const updatedUser = await Users.findOneAndUpdate(
-      { username: req.params.username },
-      { $pull: { favoriteMovies: req.params.movieId } },
-      { new: true }
-    );
-    console.log('Updated User:', updatedUser);
-    res.json(updatedUser);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error:' + err);
-  }
-});
+app.delete('/users/:Username/movies/:movieId',
+  // passport.authenticate('jwt', { session: false }), 
+  async (req, res) => {
+    try {
+      console.log('Request Params:', req.params);
+      const updatedUser = await Users.findOneAndUpdate(
+        { username: req.params.username },
+        { $pull: { favoriteMovies: req.params.movieId } },
+        { new: true }
+      );
+      console.log('Updated User:', updatedUser);
+      res.json(updatedUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    }
+  });
 
 
 app.use(express.static('public'));
