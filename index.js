@@ -27,7 +27,6 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
-
 const server = http.createServer(app);
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
@@ -39,10 +38,10 @@ const { check, validationResult } = require('express-validator');
 //https://myflixproject-9c1001b14e61.herokuapp.com/
 
 //for online api
-// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //for local host
-mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
+// mongoose.connect('mongodb://0.0.0.0:27017/MongoDB', {});
 
 
 const db = mongoose.connection;
@@ -67,7 +66,7 @@ app.get('/', (req, res) => {
 });
 
 //movies
-app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const movies = await Movies.find();
     res.json(movies);
@@ -77,7 +76,7 @@ app.get('/movies', /*passport.authenticate('jwt', { session: false }),*/ async (
   }
 });
 app.get('/movies/:Title',
-  // passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.findOne({ title: req.params.Title })
       .then((movie) => {
@@ -91,7 +90,7 @@ app.get('/movies/:Title',
 
 //users
 app.get('/users',
-  // passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       const users = await Users.find();
@@ -102,7 +101,7 @@ app.get('/users',
     }
   });
 app.get('/users/:Username',
-  // passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => {
@@ -116,7 +115,7 @@ app.get('/users/:Username',
 
 //genres
 app.get('/genres',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       const genres = await Genres.find();
@@ -127,7 +126,7 @@ app.get('/genres',
     }
   });
 app.get('/genres/:Name',
-  // passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Genres.findOne({ Name: req.params.Name })
       .then((genres) => {
@@ -254,7 +253,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 // adds a movie to a user's favorites list
 app.post('/users/:Username/movies/:movieId',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       console.log('Request Params:', req.params);
@@ -272,7 +271,7 @@ app.post('/users/:Username/movies/:movieId',
   });
 
 // deletes a movie from a users favorites list
-app.delete('/users/:Username/movies/:movieId', async (req, res) => {
+app.delete('/users/:Username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
