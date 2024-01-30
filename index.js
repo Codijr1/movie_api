@@ -14,6 +14,7 @@ app.use(cors({
     return callback(null, true);
   }
 }));
+app.use(express.static('public'));
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
@@ -288,6 +289,3 @@ app.delete('/users/:Username/movies/:movieId',
       res.status(500).send('Error:' + err);
     }
   });
-
-
-app.use(express.static('public'));
