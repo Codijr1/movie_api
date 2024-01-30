@@ -253,7 +253,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 // adds a movie to a user's favorites list
 app.post('/users/:Username/movies/:movieId',
-  // passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       console.log('Request Params:', req.params);
