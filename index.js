@@ -256,16 +256,13 @@ app.post('/users/:Username/movies/:movieId',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
-      const movie = await Movies.findById(req.params.movieId);
-      if (!movie) {
-        return res.status(404).send('Movie not found');
-      }
-
+      console.log('Request Params:', req.params);
       const updatedUser = await Users.findOneAndUpdate(
         { Username: req.params.Username },
-        { $addToSet: { favoriteMovies: movie } }, // Use $addToSet to avoid duplicates
+        { $push: { favoriteMovies: req.params.movieId } },
         { new: true }
       );
+      console.log('Updated User:', updatedUser);
       res.json(updatedUser);
     } catch (err) {
       console.error(err);
@@ -273,19 +270,16 @@ app.post('/users/:Username/movies/:movieId',
     }
   });
 
-// deletes a movie from a user's favorites list
+// deletes a movie from a users favorites list
 app.delete('/users/:Username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    const movie = await Movies.findById(req.params.movieId);
-    if (!movie) {
-      return res.status(404).send('Movie not found');
-    }
-
+    console.log('Request Params:', req.params);
     const updatedUser = await Users.findOneAndUpdate(
       { Username: req.params.Username },
-      { $pull: { favoriteMovies: movie } },
+      { $pull: { favoriteMovies: req.params.movieId } },
       { new: true }
     );
+    console.log('Updated User:', updatedUser);
     res.json(updatedUser);
   } catch (err) {
     console.error(err);
