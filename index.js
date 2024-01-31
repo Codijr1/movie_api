@@ -256,13 +256,16 @@ app.post('/users/:Username/movies/:movieId',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
-      console.log('Request Params:', req.params);
+      const movieId = req.params.movieId;
+      const movie = await Movies.findById(movieId);
+      if (!movie) {
+        return res.status(404).json({ error: 'Movie not found' });
+      }
       const updatedUser = await Users.findOneAndUpdate(
         { Username: req.params.Username },
-        { $push: { favoriteMovies: req.params.movieId } },
+        { $push: { favoriteMovies: { _id: movieId, Title: movie.Title } } },
         { new: true }
       );
-      console.log('Updated User:', updatedUser);
       res.json(updatedUser);
     } catch (err) {
       console.error(err);
