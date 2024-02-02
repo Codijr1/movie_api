@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:1234', '*'];
+let allowedOrigins = ['http://localhost:1234', 'https://myflixproject-9c1001b14e61.herokuapp.com/'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
