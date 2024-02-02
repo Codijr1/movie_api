@@ -3,15 +3,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:1234'];
+let allowedOrigins = ['http://localhost:1234', '*'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      let message = 'The CORS policy for this application does not allow access from origin ' + origin;
-      return callback(new Error(message), false);
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      return callback(null, true);
     }
-    return callback(null, true);
+    let message = 'The CORS policy for this application does not allow access from origin ' + origin;
+    return callback(new Error(message), false);
   }
 }));
 app.use(express.static('public'));
@@ -262,7 +262,6 @@ app.post('/users/:Username/movies/:movieId',
         { $push: { favoriteMovies: req.params.movieId } },
         { new: true }
       );
-      console.log('Updated User:', updatedUser);
       res.json(updatedUser);
     } catch (err) {
       console.error(err);
@@ -279,7 +278,6 @@ app.delete('/users/:Username/movies/:movieId', passport.authenticate('jwt', { se
       { $pull: { favoriteMovies: req.params.movieId } },
       { new: true }
     );
-    console.log('Updated User:', updatedUser);
     res.json(updatedUser);
   } catch (err) {
     console.error(err);
