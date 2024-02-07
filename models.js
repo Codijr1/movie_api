@@ -7,6 +7,8 @@ let movieSchema = mongoose.Schema({
     Description: { type: String, required: true },
     Genre: { Name: String },
     Director: { Name: String },
+    Trailer: { type: String },
+    Poster: { type: String }
 });
 
 let userSchema = mongoose.Schema({
