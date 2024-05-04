@@ -8,6 +8,7 @@ let allowedOrigins = [
   'http://localhost:4200',
   'https://myflixproject-9c1001b14e61.herokuapp.com',
   'https://myflixprojectcjr.netlify.app',
+  'https://codijr1.github.io',
   'https://codijr1.github.io/myFlix-angular-app',
   'https://codijr1.github.io/myFlix-Angular-client',
 ];
